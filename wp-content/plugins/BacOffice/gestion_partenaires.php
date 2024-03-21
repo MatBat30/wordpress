@@ -32,9 +32,9 @@ if ( isset( $_POST['nom_partenaire_ajouter'], $_POST['adresse_partenaire_ajouter
 		'adresse'          => $adresse,
 		'téléphone'        => $telephone,
 		'email'            => $email,
-		'types_prestation' => $types_prestation // Inclure 'types_prestation' ici
+		'types_prestations' => $types_prestation // Inclure 'types_prestations' ici
 	];
-	$format = [ '%s', '%s', '%s', '%s', '%s' ]; // Ajouter '%s' pour 'types_prestation'
+	$format = [ '%s', '%s', '%s', '%s', '%s' ]; // Ajouter '%s' pour 'types_prestations'
 
 	$insert=$wpdb->insert( "{$wpdb->prefix}partenaires", $data, $format );
     if ( ! $insert ) {
@@ -62,7 +62,7 @@ if ( isset( $_POST['submit_edit'] ) && current_user_can( 'manage_options' ) ) {
 			'adresse'          => $adresse,
 			'téléphone'        => $telephone,
 			'email'            => $email,
-			'types_prestation' => $types_prestation
+			'types_prestations' => $types_prestation
 		],
 		[ 'id_partenaire' => $id ], // Clé primaire pour identifier la ligne à mettre à jour.
 		[ '%s', '%s', '%s', '%s', '%s' ], // Types des valeurs : s pour string (chaîne de caractères).
@@ -186,7 +186,7 @@ function afficher_partenaires() {
             <a href='#' class='button btn-edit' data-id='{$partenaire->id_partenaire}' data-name='{$partenaire->nom}' data-adresse='{$partenaire->adresse}' data-telephone='{$partenaire->téléphone}' data-email='{$partenaire->email}' data-types='{$partenaire->types_prestations}' >Modifier</a>
         </td>
         <td>
-            <a href='" . wp_nonce_url( admin_url( 'admin.php?page=bac-office&tab=partenaires&delete=' . $partenaire->id_partenaire ), 'delete-partenaire_' . $partenaire->id_partenaire ) . "' class='button'>Supprimer</a>
+            <a class='button btn-edit' href='" . wp_nonce_url( admin_url( 'admin.php?page=bac-office&tab=partenaires&delete=' . $partenaire->id_partenaire ), 'delete-partenaire_' . $partenaire->id_partenaire ) . "' class='button'>Supprimer</a>
         </td>
       </tr>";
 
@@ -204,14 +204,14 @@ function afficher_partenaires() {
             var adresse_partenaire = $(this).data('adresse');
             var telephone_partenaire = $(this).data('telephone');
             var email_partenaire = $(this).data('email');
-            var types_prestation = $(this).data('types');
+            var types_prestations = $(this).data('types');
 
             // Remplir les champs du formulaire dans la modal
             $('#editPartenaire #nom_partenaire_update').val(nom_partenaire);
             $('#editPartenaire #adresse_partenaire_update').val(adresse_partenaire);
             $('#editPartenaire #telephone_partenaire_update').val(telephone_partenaire);
             $('#editPartenaire #email_partenaire_update').val(email_partenaire);
-            $('#editPartenaire #types_prestation_update').val(types_prestation);
+            $('#editPartenaire #types_prestation_update').val(types_prestations);
             $('#editPartenaire #partenaire_id_update').val(partenaire_id); // S'assurer que cette ligne est correcte
 
             // Afficher la modal
